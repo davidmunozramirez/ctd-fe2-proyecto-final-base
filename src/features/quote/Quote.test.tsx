@@ -45,5 +45,12 @@ describe('Componente Cita', ()=>{
         await waitFor(()=> expect(getByText("Bart Simpson")).toBeInTheDocument())
     })
 
+    it("Click en botón Borrar", async () => {
+        const botonBoorar = getByText(/borrar/i, { selector: "button"});
+        const inputAutor = queryByPlaceholderText("Ingresa el nombre del autor")
+        fireEvent.click(botonBoorar);
+        await waitFor(()=>expect(inputAutor.value).toBe(""))
+        await waitFor(()=> expect(getByText("No se encontro ninguna cita")).toBeInTheDocument())
+    })
     
 })
