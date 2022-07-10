@@ -30,9 +30,12 @@
       "react-app",
       "react-app/jest"
     ],
-    "rules":{
-      "no-unused-expressions": "warn",
-      "no-render-in-setup": "off"
+    "rules": {
+      "@typescript-eslint/no-unused-expressions": "warn",
+      "testing-library/prefer-screen-queries": "warn",
+      "testing-library/no-render-in-setup": "off",
+      "testing-library/prefer-presence-queries": "warn",
+      "testing-library/prefer-find-by": "warn"
     }
   },
   "browserslist": {

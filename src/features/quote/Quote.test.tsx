@@ -2,7 +2,6 @@ import { fireEvent, waitFor, screen } from "@testing-library/react";
 import { render } from "../../test-utils"
 import Cita from "./Cita";
 //import { screen } from "@testing-library/react";
-//import { getByText } from "@testing-library/react";
 import { setupServer } from "msw/node";
 import { citaPorNombreDeAutor, citaAleatoria, mocksAPICitas } from "./mocksAPICitas";
 
@@ -10,13 +9,13 @@ import { citaPorNombreDeAutor, citaAleatoria, mocksAPICitas } from "./mocksAPICi
 describe('Componente Cita', ()=>{
 
     //const testCita = () => render(<Cita/>);
-    const { getByText, queryByPlaceholderText, queryByText, findByText } = screen;
+    const { getByText, queryByPlaceholderText, queryByText, findByText, getByPlaceholderText } = screen;
     const server = setupServer(...mocksAPICitas);
     
     beforeAll(() => server.listen());
     beforeEach(() => render(<Cita />));
-    afterAll(() => server.close);
-    afterEach(() => server.resetHandlers);
+    afterAll(() => server.close());
+    afterEach(() => server.resetHandlers());
      
     it("Aparece el contenedor de cita con todos sus elementos", () => {
         expect(getByText("No se encontro ninguna cita")).toBeInTheDocument()
@@ -27,8 +26,8 @@ describe('Componente Cita', ()=>{
 
     
     it("Dando click en botón obtener cita aleatoria con el input vacío", async () => {
-        const inputAutor = queryByPlaceholderText("Ingresa el nombre del autor")
-        fireEvent.change(inputAutor , { target: {value: ""} } )
+        const inputAutor = getByPlaceholderText("Ingresa el nombre del autor") || null
+        fireEvent.change(inputAutor, { target: {value: ""} } )
         const botonObtenerCitaAleatoria = getByText("Obtener cita aleatoria", { selector: "button"});
         fireEvent.click(botonObtenerCitaAleatoria);
         await waitFor( ()=> expect(getByText("Inflammable means flammable? What a country!")).toBeInTheDocument()  )
@@ -37,7 +36,7 @@ describe('Componente Cita', ()=>{
 
     it("Click en obtener cita aleatoria con un autor definido", async () => {
         const botonObtenerCitaAleatoria = getByText("Obtener cita aleatoria", { selector: "button"});
-        const inputAutor = queryByPlaceholderText("Ingresa el nombre del autor")
+        const inputAutor = getByPlaceholderText("Ingresa el nombre del autor")
         fireEvent.change(inputAutor , { target: {value: ""} } )
         fireEvent.change(inputAutor , { target: {value: "Bart"} } )
         fireEvent.click(botonObtenerCitaAleatoria);
@@ -47,9 +46,9 @@ describe('Componente Cita', ()=>{
 
     it("Click en botón Borrar", async () => {
         const botonBoorar = getByText(/borrar/i, { selector: "button"});
-        const inputAutor = queryByPlaceholderText("Ingresa el nombre del autor")
+        const inputAutor = getByPlaceholderText("Ingresa el nombre del autor")
         fireEvent.click(botonBoorar);
-        await waitFor(()=>expect(inputAutor.value).toBe(""))
+        await waitFor(()=>expect(inputAutor).toHaveTextContent(""))
         await waitFor(()=> expect(getByText("No se encontro ninguna cita")).toBeInTheDocument())
     })
     

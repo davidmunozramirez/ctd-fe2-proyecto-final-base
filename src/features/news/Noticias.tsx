@@ -21,6 +21,9 @@ import {
   CotenedorTexto,
 } from "./styled";
 
+// se traen y se usan estas funciones dentro del useeffect para buscar cumplir con el principio S de SOLID
+import { mayusculaAlInicioDeCadaPalabra, calcularDirefenciaEnMinutos } from "./funciones";
+
 export interface INoticiasNormalizadas {
   id: number;
   titulo: string;
@@ -40,17 +43,8 @@ const Noticias = () => {
       const respuesta = await obtenerNoticias();
 
       const data = respuesta.map((n) => {
-        const titulo = n.titulo
-          .split(" ")
-          .map((str) => {
-            return str.charAt(0).toUpperCase() + str.slice(1);
-          })
-          .join(" ");
-
-        const ahora = new Date();
-        const minutosTranscurridos = Math.floor(
-          (ahora.getTime() - n.fecha.getTime()) / 60000
-        );
+        const titulo = mayusculaAlInicioDeCadaPalabra(n);
+        const minutosTranscurridos = calcularDirefenciaEnMinutos(n)
 
         return {
           id: n.id,
