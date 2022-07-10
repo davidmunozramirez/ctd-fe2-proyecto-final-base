@@ -21,6 +21,7 @@ import { mayusculaAlInicioDeCadaPalabra, calcularDirefenciaEnMinutos } from "./f
 // creo y separo interfaces y componentes para seguir con el principio S
 import { INoticiasNormalizadas } from "./interfaces/INoticiasNormalizadas.interface";
 import { TarjetaParaNoticia } from "./components/TarjetaParaNoticia";
+// import { ModalComponent } from "./components/ModalComponent";
 
 const Noticias = () => {
   const [noticias, setNoticias] = useState<INoticiasNormalizadas[]>([]);
