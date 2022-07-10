@@ -24,15 +24,9 @@ import {
 // se traen y se usan estas funciones dentro del useeffect para buscar cumplir con el principio S de SOLID
 import { mayusculaAlInicioDeCadaPalabra, calcularDirefenciaEnMinutos } from "./funciones";
 
-export interface INoticiasNormalizadas {
-  id: number;
-  titulo: string;
-  descripcion: string;
-  fecha: number | string;
-  esPremium: boolean;
-  imagen: string;
-  descripcionCorta?: string;
-}
+// creo y separo interfaces y componentes para seguir con el principio S
+import { INoticiasNormalizadas } from "./interfaces/INoticiasNormalizadas.interface";
+import { TarjetaParaNoticia } from "./components/TarjetaParaNoticia";
 
 const Noticias = () => {
   const [noticias, setNoticias] = useState<INoticiasNormalizadas[]>([]);
@@ -67,17 +61,7 @@ const Noticias = () => {
     <ContenedorNoticias>
       <TituloNoticias>Noticias de los Simpsons</TituloNoticias>
       <ListaNoticias>
-        {noticias.map((n) => (
-          <TarjetaNoticia>
-            <ImagenTarjetaNoticia src={n.imagen} />
-            <TituloTarjetaNoticia>{n.titulo}</TituloTarjetaNoticia>
-            <FechaTarjetaNoticia>{n.fecha}</FechaTarjetaNoticia>
-            <DescripcionTarjetaNoticia>
-              {n.descripcionCorta}
-            </DescripcionTarjetaNoticia>
-            <BotonLectura onClick={() => setModal(n)}>Ver más</BotonLectura>
-          </TarjetaNoticia>
-        ))}
+        {noticias.map((n) => <TarjetaParaNoticia   noticia={n}   setModal={setModal}  /> ) }
         {modal ? (
           modal.esPremium ? (
             <ContenedorModal>
